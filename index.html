@@ -7,18 +7,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --primary-color: #ff69b4;
+      --secondary-color: #8b4469;
+      --dark-color: #3a1c2c;
+      --light-color: #fff0f5;
+      --background-color: #ffc8da;
+      --text-color: #4e2b4c;
+      --highlight-color: #ff2d75;
+    }
+    
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+    
     body, html {
       font-family: 'Press Start 2P', cursive;
-      background-color: #ffc8da;
+      background-color: var(--background-color);
       overflow-x: hidden;
-      color: #4e2b4c;
+      color: var(--text-color);
       height: 100%;
+      line-height: 1.6;
     }
+    
     .page {
       display: none;
       flex-direction: column;
@@ -29,75 +42,121 @@
       text-align: center;
       animation: fadeIn 0.8s ease-in-out;
     }
+    
     .active {
       display: flex;
     }
-    h1 {
+    
+    h1, h2 {
       font-size: clamp(16px, 4vw, 24px);
       margin-bottom: 30px;
-      color: #3a1c2c;
+      color: var(--dark-color);
       animation: bounce 1s;
       text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
     }
+    
     .card {
-      background-color: #fff0f5;
-      border: 5px solid #8b4469;
+      background-color: var(--light-color);
+      border: 5px solid var(--secondary-color);
       padding: 30px;
       width: 90%;
       max-width: 500px;
       margin-bottom: 30px;
-      box-shadow: 6px 6px 0 #8b4469;
+      box-shadow: 6px 6px 0 var(--secondary-color);
       animation: slideUp 0.7s;
       border-radius: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 8px 8px 0 var(--secondary-color);
+    }
+    
     .card p {
       font-size: clamp(10px, 2.5vw, 14px);
       margin-bottom: 15px;
-      color: #4e2b4c;
+      color: var(--text-color);
       text-align: left;
       line-height: 1.8;
     }
+    
     .card p strong {
-      color: #ff2d75;
+      color: var(--highlight-color);
     }
+    
     button {
-      background-color: #ff69b4;
+      background-color: var(--primary-color);
       color: white;
       border: 2px solid white;
       padding: 12px 20px;
       font-size: clamp(10px, 2.5vw, 12px);
       cursor: pointer;
       font-family: 'Press Start 2P', cursive;
-      box-shadow: 4px 4px 0 #8b4469;
+      box-shadow: 4px 4px 0 var(--secondary-color);
       margin: 10px;
       transition: all 0.3s;
       animation: fadeIn 1s;
       border-radius: 8px;
+      position: relative;
+      overflow: hidden;
     }
+    
+    button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.1);
+      transform: translateX(-100%);
+      transition: transform 0.3s;
+    }
+    
     button:hover {
       background-color: #ff85c1;
       transform: scale(1.05);
-      box-shadow: 6px 6px 0 #8b4469;
+      box-shadow: 6px 6px 0 var(--secondary-color);
     }
+    
+    button:hover::after {
+      transform: translateX(0);
+    }
+    
     button:active {
       transform: scale(0.98);
     }
+    
     .photo-container {
       position: relative;
       max-width: 90%;
       width: 300px;
       margin: 20px auto;
       animation: fadeIn 1.2s;
+      transition: transform 0.3s;
     }
+    
+    .photo-container:hover {
+      transform: scale(1.02);
+    }
+    
     .photo-container img {
       width: 100%;
-      border: 5px solid #8b4469;
+      border: 5px solid var(--secondary-color);
       box-shadow: 6px 6px 0 #7e3b5d;
       margin-bottom: 20px;
       border-radius: 8px;
       object-fit: cover;
       aspect-ratio: 1/1;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
+    
+    .photo-container img:hover {
+      transform: rotate(-1deg) scale(1.01);
+      box-shadow: 8px 8px 0 #7e3b5d;
+    }
+    
     .emoji {
       position: absolute;
       font-size: 24px;
@@ -105,6 +164,7 @@
       animation: floatUp 2s ease-out forwards;
       z-index: 10;
     }
+    
     @keyframes floatUp {
       0% {
         opacity: 1;
@@ -115,6 +175,7 @@
         transform: translateY(-100px) scale(1.5);
       }
     }
+    
     .icon-buttons {
       display: flex;
       gap: 20px;
@@ -123,10 +184,11 @@
       animation: bounce 1.2s;
       margin: 20px 0;
     }
+    
     .icon-button {
       font-size: clamp(24px, 8vw, 32px);
       padding: 20px;
-      border: 5px solid #8b4469;
+      border: 5px solid var(--secondary-color);
       background-color: #ffe4ed;
       border-radius: 12px;
       box-shadow: 4px 4px 0 #c35f8c;
@@ -137,14 +199,35 @@
       align-items: center;
       justify-content: center;
       width: 80px;
+      position: relative;
+      overflow: hidden;
     }
+    
+    .icon-button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.1);
+      transform: translateX(-100%);
+      transition: transform 0.3s;
+    }
+    
     .icon-button:hover {
       transform: scale(1.1);
       box-shadow: 6px 6px 0 #c35f8c;
     }
+    
+    .icon-button:hover::after {
+      transform: translateX(0);
+    }
+    
     .icon-button:active {
       transform: scale(0.95);
     }
+    
     #game-board {
       display: grid;
       grid-template-columns: repeat(3, minmax(60px, 80px));
@@ -152,17 +235,19 @@
       margin: 20px auto;
       animation: zoomIn 0.8s;
     }
+    
     .cell {
       width: 100%;
       height: 0;
       padding-bottom: 100%;
       position: relative;
-      border: 3px solid #8b4469;
-      background-color: #fff0f5;
+      border: 3px solid var(--secondary-color);
+      background-color: var(--light-color);
       cursor: pointer;
       transition: all 0.2s;
       border-radius: 6px;
     }
+    
     .cell span {
       position: absolute;
       top: 50%;
@@ -170,10 +255,12 @@
       transform: translate(-50%, -50%);
       font-size: clamp(20px, 6vw, 24px);
     }
+    
     .cell:hover {
       background-color: #ffe0eb;
       transform: scale(1.02);
     }
+    
     .emoji-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(50px, 70px));
@@ -182,17 +269,19 @@
       margin: 20px auto;
       animation: zoomIn 0.8s;
     }
+    
     .emoji-card {
       width: 100%;
       height: 0;
       padding-bottom: 100%;
       position: relative;
-      border: 3px solid #8b4469;
-      background-color: #fff0f5;
+      border: 3px solid var(--secondary-color);
+      background-color: var(--light-color);
       cursor: pointer;
       transition: all 0.3s;
       border-radius: 8px;
     }
+    
     .emoji-card span {
       position: absolute;
       top: 50%;
@@ -201,10 +290,12 @@
       font-size: clamp(20px, 6vw, 24px);
       visibility: hidden;
     }
+    
     .emoji-card.flipped {
       background-color: #ffb6c1;
       transform: rotateY(180deg);
     }
+    
     .emoji-card.flipped span {
       visibility: visible;
     }
@@ -217,10 +308,10 @@
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 4px;
       margin: 20px auto;
-      background-color: #8b4469;
+      background-color: var(--secondary-color);
       padding: 8px;
-      border: 5px solid #3a1c2c;
-      box-shadow: 8px 8px 0 #3a1c2c;
+      border: 5px solid var(--dark-color);
+      box-shadow: 8px 8px 0 var(--dark-color);
     }
     
     .puzzle-tile {
@@ -229,37 +320,41 @@
       background-size: 300px 300px;
       cursor: pointer;
       transition: transform 0.2s;
-      border: 2px solid #3a1c2c;
+      border: 2px solid var(--dark-color);
       position: relative;
       image-rendering: pixelated;
     }
     
     .puzzle-tile:hover {
       transform: scale(0.95);
-      border-color: #ff69b4;
+      border-color: var(--primary-color);
     }
     
     .puzzle-empty {
       background-color: #ffb6c1;
       visibility: visible;
-      border: 2px dashed #8b4469;
+      border: 2px dashed var(--secondary-color);
     }
     
     #puzzle-controls {
       margin: 20px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
     }
     
     #puzzle-moves {
       font-size: 14px;
       margin: 15px 0;
-      color: #3a1c2c;
+      color: var(--dark-color);
     }
     
     #puzzle-win {
       font-size: 18px;
-      color: #ff2d75;
+      color: var(--highlight-color);
       margin: 20px 0;
-      text-shadow: 2px 2px 0 #3a1c2c;
+      text-shadow: 2px 2px 0 var(--dark-color);
       animation: blink 0.5s infinite alternate;
       display: none;
     }
@@ -267,33 +362,104 @@
     #puzzle-original {
       width: 150px;
       height: 150px;
-      border: 5px solid #8b4469;
-      box-shadow: 4px 4px 0 #3a1c2c;
+      border: 5px solid var(--secondary-color);
+      box-shadow: 4px 4px 0 var(--dark-color);
       margin: 15px auto;
       display: none;
       image-rendering: pixelated;
     }
 
-    @keyframes fadeIn {
-      from {opacity: 0; transform: scale(0.95);}
-      to {opacity: 1; transform: scale(1);}
+    /* SNAKE GAME STYLES */
+    #snake-game {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 20px auto;
+      border: 5px solid var(--secondary-color);
+      box-shadow: 6px 6px 0 var(--dark-color);
+      background-color: var(--light-color);
     }
-    @keyframes slideUp {
-      from {transform: translateY(40px); opacity: 0;}
-      to {transform: translateY(0); opacity: 1;}
+    
+    #snake-canvas {
+      width: 100%;
+      height: 100%;
     }
-    @keyframes zoomIn {
-      from {transform: scale(0.8); opacity: 0;}
-      to {transform: scale(1); opacity: 1;}
+    
+    #snake-score {
+      font-size: 14px;
+      margin: 10px 0;
+      color: var(--dark-color);
     }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    
+    #snake-game-over {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 182, 193, 0.8);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
     }
-    @keyframes blink {
-      from { opacity: 1; }
-      to { opacity: 0.7; }
+    
+    #snake-game-over h3 {
+      color: var(--highlight-color);
+      margin-bottom: 20px;
+      font-size: 18px;
+      text-shadow: 2px 2px 0 var(--dark-color);
     }
+    
+    .snake-controls {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 5px;
+      margin: 15px auto;
+      width: 150px;
+    }
+    
+    .snake-control-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px;
+      font-family: 'Press Start 2P', cursive;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .snake-control-btn:active {
+      background-color: #ff85c1;
+    }
+    
+    .snake-control-btn.up {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    
+    .snake-control-btn.left {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    
+    .snake-control-btn.right {
+      grid-column: 3;
+      grid-row: 2;
+    }
+    
+    .snake-control-btn.down {
+      grid-column: 2;
+      grid-row: 3;
+    }
+
+    /* Music Controls */
     .music-controls {
       margin-top: 40px;
       display: flex;
@@ -301,6 +467,7 @@
       flex-direction: column;
       gap: 15px;
     }
+    
     #playBtn {
       font-size: 18px;
       padding: 12px 20px;
@@ -311,48 +478,165 @@
       align-items: center;
       justify-content: center;
     }
+    
     .volume-control {
       display: flex;
       align-items: center;
       gap: 10px;
     }
+    
     .volume-control input {
       width: 100px;
+      cursor: pointer;
     }
+    
     .game-title {
       margin-bottom: 10px;
       font-size: clamp(12px, 3vw, 16px);
-      color: #8b4469;
+      color: var(--secondary-color);
     }
+    
     .game-status {
       margin: 10px 0;
       font-size: clamp(10px, 2.5vw, 12px);
       min-height: 20px;
     }
+    
     .confetti {
       position: fixed;
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       background-color: #f00;
       border-radius: 50%;
       pointer-events: none;
-      z-index: 100;
+      z-index: 1000;
+      animation: fall 3s linear forwards;
     }
-    @media (max-width: 400px) {
+    
+    /* Loading Screen */
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--background-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s;
+    }
+    
+    .loader-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s ease-in-out infinite;
+      margin-bottom: 20px;
+    }
+    
+    .loader-text {
+      font-size: 14px;
+      color: var(--dark-color);
+      animation: pulse 1.5s infinite;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.95);}
+      to {opacity: 1; transform: scale(1);}
+    }
+    
+    @keyframes slideUp {
+      from {transform: translateY(40px); opacity: 0;}
+      to {transform: translateY(0); opacity: 1;}
+    }
+    
+    @keyframes zoomIn {
+      from {transform: scale(0.8); opacity: 0;}
+      to {transform: scale(1); opacity: 1;}
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes blink {
+      from { opacity: 1; }
+      to { opacity: 0.7; }
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .card {
+        padding: 20px;
+      }
+      
       .icon-buttons {
         gap: 15px;
       }
+      
       .icon-button {
         width: 70px;
         padding: 15px;
       }
+      
+      #puzzle-container {
+        width: 280px;
+        height: 280px;
+      }
+    }
+    
+    @media (max-width: 480px) {
       .card {
-        padding: 20px;
+        padding: 15px;
+      }
+      
+      .icon-button {
+        width: 60px;
+        padding: 12px;
+        font-size: 20px;
+      }
+      
+      #puzzle-container {
+        width: 260px;
+        height: 260px;
+      }
+      
+      button {
+        padding: 10px 15px;
+        font-size: 10px;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Loading Screen -->
+  <div class="loader" id="loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Loading...</div>
+  </div>
 
   <audio id="bg-music" src="musik.mp3" loop></audio>
 
@@ -408,6 +692,9 @@
       <div class="icon-button" onclick="goToPage('game-puzzle')" title="Sliding Puzzle">
         <i class="fas fa-puzzle-piece"></i>
       </div>
+      <div class="icon-button" onclick="goToPage('game-snake')" title="Snake Game">
+        <i class="fas fa-worm"></i>
+      </div>
     </div>
     <button onclick="goToPage('home')"><i class="fas fa-arrow-left"></i> Kembali</button>
   </div>
@@ -428,7 +715,6 @@
     <button onclick="goToPage('game-menu')"><i class="fas fa-arrow-left"></i> Kembali</button>
   </div>
 
-  <!-- NEW SLIDING PUZZLE GAME PAGE -->
   <div class="page" id="game-puzzle">
     <h2 class="game-title">SLIDING PUZZLE</h2>
     <div class="game-status" id="puzzle-moves">Langkah: 0</div>
@@ -442,7 +728,36 @@
     <div id="puzzle-win">KAMU MENANG! ❤️</div>
   </div>
 
+  <div class="page" id="game-snake">
+    <h2 class="game-title">SNAKE GAME</h2>
+    <div class="game-status" id="snake-score">Skor: 0</div>
+    <div id="snake-game">
+      <canvas id="snake-canvas"></canvas>
+      <div id="snake-game-over">
+        <h3>GAME OVER!</h3>
+        <button onclick="snakeReset()"><i class="fas fa-redo"></i> Main Lagi</button>
+      </div>
+    </div>
+    <div class="snake-controls">
+      <button class="snake-control-btn up" onclick="snakeChangeDirection('up')"><i class="fas fa-arrow-up"></i></button>
+      <button class="snake-control-btn left" onclick="snakeChangeDirection('left')"><i class="fas fa-arrow-left"></i></button>
+      <button class="snake-control-btn right" onclick="snakeChangeDirection('right')"><i class="fas fa-arrow-right"></i></button>
+      <button class="snake-control-btn down" onclick="snakeChangeDirection('down')"><i class="fas fa-arrow-down"></i></button>
+    </div>
+    <button onclick="goToPage('game-menu')"><i class="fas fa-arrow-left"></i> Kembali</button>
+  </div>
+
   <script>
+    // Loading Screen
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('loader').style.opacity = '0';
+        setTimeout(function() {
+          document.getElementById('loader').style.display = 'none';
+        }, 500);
+      }, 1000);
+    });
+
     // Music Controls
     const audio = document.getElementById('bg-music');
     const playBtn = document.getElementById('playBtn');
@@ -480,11 +795,19 @@
       document.getElementById(id).classList.add('active');
       
       // Reset games when navigating away
-      if (id !== 'game-ttt' && id !== 'game-emoji' && id !== 'game-puzzle') {
+      if (id !== 'game-ttt' && id !== 'game-emoji' && id !== 'game-puzzle' && id !== 'game-snake') {
         resetGame();
         emojiGameReset();
         puzzleReset();
       }
+      
+      // Initialize snake game when navigating to it
+      if (id === 'game-snake') {
+        snakeInit();
+      }
+      
+      // Scroll to top when changing pages
+      window.scrollTo(0, 0);
     }
 
     // Love Emoji Effect
@@ -653,23 +976,33 @@
       puzzleMoves = 0;
       puzzleMovesDisplay.textContent = `Langkah: ${puzzleMoves}`;
       puzzleWin.style.display = 'none';
+      puzzleOriginal.style.display = 'none';
       
-      for (let i = 0; i < 9; i++) {
-        const tile = document.createElement('div');
-        tile.className = puzzleState[i] === 0 ? 'puzzle-tile puzzle-empty' : 'puzzle-tile';
+      // Load image first to ensure dimensions
+      const img = new Image();
+      img.src = puzzleOriginal.src;
+      img.onload = function() {
+        const containerSize = 300; // Match this with your puzzle-container size
+        const tileSize = containerSize / 3;
         
-        if (puzzleState[i] !== 0) {
-          const row = Math.floor((puzzleState[i] - 1) / 3);
-          const col = (puzzleState[i] - 1) % 3;
-          tile.style.backgroundImage = `url(${puzzleOriginal.src})`;
-          tile.style.backgroundPosition = `-${col * 100}px -${row * 100}px`;
+        for (let i = 0; i < 9; i++) {
+          const tile = document.createElement('div');
+          tile.className = puzzleState[i] === 0 ? 'puzzle-tile puzzle-empty' : 'puzzle-tile';
+          
+          if (puzzleState[i] !== 0) {
+            const row = Math.floor((puzzleState[i] - 1) / 3);
+            const col = (puzzleState[i] - 1) % 3;
+            tile.style.backgroundImage = `url(${puzzleOriginal.src})`;
+            tile.style.backgroundPosition = `-${col * tileSize}px -${row * tileSize}px`;
+            tile.style.backgroundSize = `${containerSize}px ${containerSize}px`;
+          }
+          
+          tile.dataset.index = i;
+          tile.dataset.value = puzzleState[i];
+          tile.addEventListener('click', puzzleMoveTile);
+          puzzleContainer.appendChild(tile);
         }
-        
-        tile.dataset.index = i;
-        tile.dataset.value = puzzleState[i];
-        tile.addEventListener('click', puzzleMoveTile);
-        puzzleContainer.appendChild(tile);
-      }
+      };
     }
 
     function puzzleMoveTile(e) {
@@ -751,41 +1084,266 @@
       puzzleInit();
     }
 
-    // Confetti Effect
+    // SNAKE GAME
+    const snakeCanvas = document.getElementById('snake-canvas');
+    const snakeCtx = snakeCanvas.getContext('2d');
+    const snakeScoreDisplay = document.getElementById('snake-score');
+    const snakeGameOver = document.getElementById('snake-game-over');
+    
+    const gridSize = 20;
+    const tileSize = snakeCanvas.width / gridSize;
+    let snake = [];
+    let food = {};
+    let direction = 'right';
+    let nextDirection = 'right';
+    let score = 0;
+    let gameSpeed = 100;
+    let gameLoop;
+    
+    // Snake body emojis (love-themed)
+    const snakeEmojis = ["❤️", "💖", "💕", "💓", "💘", "💝", "💞", "🧡", "💗", "💜", "💙", "💚"];
+    // Food emojis (fruits)
+    const foodEmojis = ["🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🍒", "🍑", "🥭", "🍍"];
+    
+    function snakeInit() {
+      // Set canvas size
+      snakeCanvas.width = 300;
+      snakeCanvas.height = 300;
+      
+      // Initialize snake
+      snake = [
+        {x: 5, y: 10, emoji: snakeEmojis[0]},
+        {x: 4, y: 10, emoji: snakeEmojis[1]},
+        {x: 3, y: 10, emoji: snakeEmojis[2]}
+      ];
+      
+      // Initialize food
+      generateFood();
+      
+      // Reset game state
+      direction = 'right';
+      nextDirection = 'right';
+      score = 0;
+      gameSpeed = 100;
+      snakeScoreDisplay.textContent = `Skor: ${score}`;
+      snakeGameOver.style.display = 'none';
+      
+      // Start game loop
+      if (gameLoop) clearInterval(gameLoop);
+      gameLoop = setInterval(updateGame, gameSpeed);
+      
+      // Draw initial state
+      drawGame();
+    }
+    
+    function generateFood() {
+      let validPosition = false;
+      let foodX, foodY;
+      
+      while (!validPosition) {
+        foodX = Math.floor(Math.random() * gridSize);
+        foodY = Math.floor(Math.random() * gridSize);
+        
+        // Check if food position is not on snake
+        validPosition = true;
+        for (let segment of snake) {
+          if (segment.x === foodX && segment.y === foodY) {
+            validPosition = false;
+            break;
+          }
+        }
+      }
+      
+      food = {
+        x: foodX,
+        y: foodY,
+        emoji: foodEmojis[Math.floor(Math.random() * foodEmojis.length)]
+      };
+    }
+    
+    function updateGame() {
+      // Update direction
+      direction = nextDirection;
+      
+      // Get head position
+      const head = {x: snake[0].x, y: snake[0].y};
+      
+      // Move head based on direction
+      switch (direction) {
+        case 'up':
+          head.y -= 1;
+          break;
+        case 'down':
+          head.y += 1;
+          break;
+        case 'left':
+          head.x -= 1;
+          break;
+        case 'right':
+          head.x += 1;
+          break;
+      }
+      
+      // Check for collisions with walls
+      if (head.x < 0 || head.x >= gridSize || head.y < 0 || head.y >= gridSize) {
+        gameOver();
+        return;
+      }
+      
+      // Check for collisions with self
+      for (let i = 0; i < snake.length; i++) {
+        if (head.x === snake[i].x && head.y === snake[i].y) {
+          gameOver();
+          return;
+        }
+      }
+      
+      // Check if food is eaten
+      if (head.x === food.x && head.y === food.y) {
+        // Add new head to snake (grow)
+        snake.unshift({
+          x: head.x,
+          y: head.y,
+          emoji: snakeEmojis[Math.floor(Math.random() * snakeEmojis.length)]
+        });
+        
+        // Increase score
+        score += 10;
+        snakeScoreDisplay.textContent = `Skor: ${score}`;
+        
+        // Increase speed every 50 points
+        if (score % 50 === 0 && gameSpeed > 50) {
+          gameSpeed -= 10;
+          clearInterval(gameLoop);
+          gameLoop = setInterval(updateGame, gameSpeed);
+        }
+        
+        // Generate new food
+        generateFood();
+      } else {
+        // Move snake by adding new head and removing tail
+        snake.unshift({
+          x: head.x,
+          y: head.y,
+          emoji: snakeEmojis[Math.floor(Math.random() * snakeEmojis.length)]
+        });
+        snake.pop();
+      }
+      
+      // Redraw game
+      drawGame();
+    }
+    
+    function drawGame() {
+      // Clear canvas
+      snakeCtx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+      
+      // Draw snake
+      snake.forEach((segment, index) => {
+        // Draw emoji for each segment
+        snakeCtx.font = `${tileSize}px serif`;
+        snakeCtx.textAlign = 'center';
+        snakeCtx.textBaseline = 'middle';
+        snakeCtx.fillText(
+          segment.emoji, 
+          segment.x * tileSize + tileSize / 2, 
+          segment.y * tileSize + tileSize / 2
+        );
+      });
+      
+      // Draw food
+      snakeCtx.font = `${tileSize}px serif`;
+      snakeCtx.textAlign = 'center';
+      snakeCtx.textBaseline = 'middle';
+      snakeCtx.fillText(
+        food.emoji, 
+        food.x * tileSize + tileSize / 2, 
+        food.y * tileSize + tileSize / 2
+      );
+    }
+    
+    function gameOver() {
+      clearInterval(gameLoop);
+      snakeGameOver.style.display = 'flex';
+    }
+    
+    function snakeChangeDirection(newDirection) {
+      // Prevent reversing direction
+      if (
+        (direction === 'up' && newDirection !== 'down') ||
+        (direction === 'down' && newDirection !== 'up') ||
+        (direction === 'left' && newDirection !== 'right') ||
+        (direction === 'right' && newDirection !== 'left')
+      ) {
+        nextDirection = newDirection;
+      }
+    }
+    
+    function snakeReset() {
+      snakeInit();
+    }
+    
+    // Keyboard controls
+    document.addEventListener('keydown', function(e) {
+      if (document.getElementById('game-snake').classList.contains('active')) {
+        switch(e.key) {
+          case 'ArrowUp':
+            snakeChangeDirection('up');
+            break;
+          case 'ArrowDown':
+            snakeChangeDirection('down');
+            break;
+          case 'ArrowLeft':
+            snakeChangeDirection('left');
+            break;
+          case 'ArrowRight':
+            snakeChangeDirection('right');
+            break;
+        }
+      }
+    });
+
+    // Universal Confetti Effect
     function createConfetti() {
       const colors = ['#ff0000', '#ff69b4', '#ff1493', '#ff00ff', '#ffc0cb'];
+      const emojis = ['❤️', '💖', '💕', '💘', '💝', '🌸', '🎉', '✨'];
       
       for (let i = 0; i < 100; i++) {
         setTimeout(() => {
           const confetti = document.createElement('div');
           confetti.classList.add('confetti');
+          
+          // Random position at top
           confetti.style.left = Math.random() * window.innerWidth + 'px';
-          confetti.style.top = -10 + 'px';
-          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-          confetti.style.width = Math.random() * 10 + 5 + 'px';
-          confetti.style.height = Math.random() * 10 + 5 + 'px';
+          confetti.style.top = '-10px';
+          
+          // Random size
+          const size = Math.random() * 10 + 5;
+          confetti.style.width = size + 'px';
+          confetti.style.height = size + 'px';
+          
+          // Random color or emoji
+          if (Math.random() > 0.5) {
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          } else {
+            confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            confetti.style.backgroundColor = 'transparent';
+            confetti.style.fontSize = size + 'px';
+            confetti.style.lineHeight = size + 'px';
+          }
+          
+          // Random animation duration
+          const duration = Math.random() * 3 + 2;
+          confetti.style.animationDuration = duration + 's';
+          
           document.body.appendChild(confetti);
           
-          const animationTime = Math.random() * 3 + 2;
-          confetti.style.animation = `fall ${animationTime}s linear forwards`;
-          
+          // Remove after animation
           setTimeout(() => {
             confetti.remove();
-          }, animationTime * 1000);
+          }, duration * 1000);
         }, i * 30);
       }
-      
-      // Add fall animation
-      const style = document.createElement('style');
-      style.innerHTML = `
-        @keyframes fall {
-          to {
-            transform: translateY(${window.innerHeight}px) rotate(720deg);
-            opacity: 0;
-          }
-        }
-      `;
-      document.head.appendChild(style);
     }
 
     // Initialize all games
